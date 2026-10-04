@@ -1,0 +1,267 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════
+   CareerProof AI — Design System
+
+   Premium, minimal, editorial AI product identity.
+   Warm neutral foundation + restrained amber accent.
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    /* ── Surfaces ── */
+    --cp-bg:              #fafaf9;
+    --cp-surface:         #ffffff;
+    --cp-surface-raised:  #ffffff;
+    --cp-surface-overlay: #ffffff;
+
+    /* ── Text ── */
+    --cp-text:            #1c1917;
+    --cp-text-secondary:  #57534e;
+    --cp-text-muted:      #a8a29e;
+    --cp-text-faint:      #d6d3d1;
+
+    /* ── Borders ── */
+    --cp-border:          #e7e5e4;
+    --cp-border-subtle:   #f5f5f4;
+    --cp-border-hover:    #d6d3d1;
+
+    /* ── AI Accent — warm amber ── */
+    --cp-accent:          #d97706;
+    --cp-accent-hover:    #b45309;
+    --cp-accent-subtle:   #fffbeb;
+    --cp-accent-border:   #fde68a;
+    --cp-accent-text:     #92400e;
+
+    /* ── Positive ── */
+    --cp-positive:        #059669;
+    --cp-positive-subtle: #ecfdf5;
+    --cp-positive-border: #a7f3d0;
+
+    /* ── Destructive ── */
+    --cp-destructive:        #dc2626;
+    --cp-destructive-subtle: #fef2f2;
+    --cp-destructive-border: #fecaca;
+
+    /* ── Focus ── */
+    --cp-ring:            #d97706;
+
+    /* ── Radius ── */
+    --cp-radius-sm:       0.375rem;
+    --cp-radius:          0.5rem;
+    --cp-radius-lg:       0.75rem;
+    --cp-radius-xl:       1rem;
+
+    /* ── Transition ── */
+    --cp-duration:        150ms;
+    --cp-ease:            cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ── Dark theme overrides ── */
+  .dark {
+    --cp-bg:              #0a0a0a;
+    --cp-surface:         #141414;
+    --cp-surface-raised:  #1a1a1a;
+    --cp-surface-overlay: #1a1a1a;
+
+    --cp-text:            #fafafa;
+    --cp-text-secondary:  #a1a1aa;
+    --cp-text-muted:      #71717a;
+    --cp-text-faint:      #3f3f46;
+
+    --cp-border:          #262626;
+    --cp-border-subtle:   #1c1c1c;
+    --cp-border-hover:    #3f3f46;
+
+    --cp-accent:          #f59e0b;
+    --cp-accent-hover:    #fbbf24;
+    --cp-accent-subtle:   #451a03;
+    --cp-accent-border:   #78350f;
+    --cp-accent-text:     #fde68a;
+
+    --cp-positive:        #34d399;
+    --cp-positive-subtle: #064e3b;
+    --cp-positive-border: #065f46;
+
+    --cp-destructive:        #f87171;
+    --cp-destructive-subtle: #450a0a;
+    --cp-destructive-border: #7f1d1d;
+
+    --cp-ring:            #f59e0b;
+  }
+
+  /* ── Dim theme overrides (inherits dark, then softens) ── */
+  .dim {
+    --cp-bg:              #1a1a1f;
+    --cp-surface:         #222228;
+    --cp-surface-raised:  #2a2a30;
+    --cp-surface-overlay: #2a2a30;
+
+    --cp-text:            #c8c8d0;
+    --cp-text-secondary:  #9898a4;
+    --cp-text-muted:      #68687a;
+    --cp-text-faint:      #3a3a48;
+
+    --cp-border:          #2d2d35;
+    --cp-border-subtle:   #242430;
+    --cp-border-hover:    #3a3a48;
+
+    --cp-accent:          #d4a053;
+    --cp-accent-hover:    #e0b06a;
+    --cp-accent-subtle:   #2a2218;
+    --cp-accent-border:   #4a3820;
+    --cp-accent-text:     #d4a053;
+
+    --cp-positive:        #6ee7b7;
+    --cp-positive-subtle: #0a2e1e;
+    --cp-positive-border: #1a4a32;
+
+    --cp-destructive:        #fca5a5;
+    --cp-destructive-subtle: #2a0a0a;
+    --cp-destructive-border: #4a1a1a;
+
+    --cp-ring:            #d4a053;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--cp-bg);
+    color: var(--cp-text);
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--cp-duration) var(--cp-ease),
+                color var(--cp-duration) var(--cp-ease);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--cp-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: var(--cp-accent-subtle);
+    color: var(--cp-accent-text);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Typography Hierarchy
+
+   Editorial, premium, AI-native feel.
+   Tight tracking on headings, generous line-height on body.
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  .t-display {
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+    color: var(--cp-text);
+  }
+
+  .t-h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-weight: 700;
+    color: var(--cp-text);
+  }
+
+  .t-h2 {
+    font-size: 1.375rem;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: var(--cp-text);
+  }
+
+  .t-h3 {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--cp-text);
+  }
+
+  .t-body {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    font-weight: 400;
+    color: var(--cp-text);
+  }
+
+  .t-muted {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--cp-text-secondary);
+  }
+
+  .t-small {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--cp-text-muted);
+  }
+
+  .t-label {
+    font-size: 0.6875rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .t-faint {
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    color: var(--cp-text-faint);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Reduced Motion
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Card Interactions — subtle hover lift for Card components
+   ═══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  .card-interactive {
+    transition: transform var(--cp-duration) var(--cp-ease),
+                box-shadow var(--cp-duration) var(--cp-ease),
+                border-color var(--cp-duration) var(--cp-ease);
+  }
+  .card-interactive:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+}

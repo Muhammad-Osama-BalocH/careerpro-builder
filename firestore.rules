@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    // ── Helper Functions ──────────────────────────────────────
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function resourceOwner() {
+      return resource.data.userId;
+    }
+
+    function isResourceOwner() {
+      return isSignedIn() && request.auth.uid == resourceOwner();
+    }
+
+    function createsAsOwner() {
+      return isSignedIn()
+             && request.resource.data.userId is string
+             && request.resource.data.userId == request.auth.uid;
+    }
+
+    function preservesOwner() {
+      return request.resource.data.userId == resource.data.userId;
+    }
+
+    // ── Portfolios ──────────────────────────────────────────
+
+    match /portfolios/{portfolioId} {
+
+      // Anyone (including unauthenticated) can read a portfolio marked as public.
+      // The owner can always read their own portfolios.
+      allow read: if resource.data.isPublic == true
+                  || isResourceOwner();
+
+      // Authenticated users can create a portfolio as themselves.
+      allow create: if createsAsOwner();
+
+      // Only the owner can update or delete their portfolio.
+      // userId cannot be changed to another user.
+      allow update: if isResourceOwner() && preservesOwner();
+
+      allow delete: if isResourceOwner();
+    }
+
+    // ── Career Profiles ──────────────────────────────────────
+
+    match /careerProfiles/{profileId} {
+
+      // Unauthenticated users can read public profiles (recruiters).
+      // The owner can always read their own profile.
+      allow read: if resource.data.isPublic == true
+                  || isResourceOwner();
+
+      // Authenticated users can create a career profile as themselves.
+      allow create: if createsAsOwner();
+
+      // Only the owner can update or delete their career profile.
+      // userId cannot be changed to another user.
+      allow update: if isResourceOwner() && preservesOwner();
+
+      allow delete: if isResourceOwner();
+    }
+
+    // ── Career Evidence ──────────────────────────────────────
+
+    match /careerEvidence/{evidenceId} {
+
+      // Any authenticated user can read evidence (allows recruiter access).
+      // This is safe — evidence contains skill data, not secrets.
+      allow read: if isSignedIn();
+
+      // Authenticated users can create evidence as themselves.
+      allow create: if createsAsOwner();
+
+      // Only the owner can update or delete their evidence.
+      allow update: if isResourceOwner() && preservesOwner();
+
+      allow delete: if isResourceOwner();
+    }
+
+    // ── GitHub Tokens (server-only) ──────────────────────────
+
+    match /githubTokens/{userId} {
+      // Deny all client-side access. Admin SDK bypasses rules.
+      allow read, write: if false;
+    }
+
+  }
+}

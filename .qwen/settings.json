@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx *)",
+      "Bash(do *)"
+    ]
+  },
+  "$version": 4
+}
