@@ -44,6 +44,6 @@
     "typescript": "^5.7.2"
   },
   "overrides": {
-    "jose": "4.15.9"
-  }
+  "jwks-rsa": "3.2.2"
+}
 }
